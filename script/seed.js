@@ -1,18 +1,66 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {Song} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  const songs = [
+    {
+      name: 'Praise The Lord',
+      artist: 'A$AP Rocky',
+      audioUrl:
+        '/Users/taylaj/Desktop/Fullstack-Senior-Phase/stackathon-music-visualizer/public/songs/A$AP Rocky - Praise The Lord (Da Shine) (Official Video) ft. Skepta.mp3',
+      artworkUrl:
+        'https://d2tml28x3t0b85.cloudfront.net/tracks/artworks/000/966/290/original/32bb70.jpeg?1547326343'
+    },
+    {
+      name: 'Ocean Eyes',
+      artist: 'Billie Eilish',
+      audioUrl:
+        '/Users/taylaj/Desktop/Fullstack-Senior-Phase/stackathon-music-visualizer/public/songs/Billie Eilish - Ocean Eyes (Official Music Video).mp3',
+      artworkUrl:
+        'https://d2tml28x3t0b85.cloudfront.net/tracks/artworks/000/891/317/original/1a253b.jpeg?1537358188'
+    },
+    {
+      name: 'Adore ft Ariana Grande',
+      artist: 'Cashmere Cat',
+      audioUrl:
+        '/Users/taylaj/Desktop/Fullstack-Senior-Phase/stackathon-music-visualizer/public/songs/Cashmere_Cat_-_Adore_Audio_ft_Ariana_Grande[Mp3Converter.net].mp3',
+      artworkUrl:
+        'https://c-sf.smule.com/sf/s39/arr/73/63/bbe9a686-2148-48b4-9c28-6570432e678c_512.jpg'
+    },
+    {
+      name: 'Level Up',
+      artist: 'Ciara',
+      audioUrl: '../public/songs/Ciara - Level Up.mp3',
+      artworkUrl:
+        'https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/Ciara_-_Level_Up_single_cover.png/220px-Ciara_-_Level_Up_single_cover.png'
+    },
+    {
+      name: 'Woke Up Late',
+      artist: 'Drax Project',
+      audioUrl:
+        '../public/songs/Drax Project - Woke Up Late [Official Audio].mp3',
+      artworkUrl:
+        'https://upload.wikimedia.org/wikipedia/en/f/ff/Drax_Project_featuring_Hailee_Steinfeld_-_Woke_Up_Late.png'
+    }
+  ]
 
-  console.log(`seeded ${users.length} users`)
+  await Promise.all(
+    songs.map(song =>
+      Song.create({
+        name: song.name,
+        artist: song.artist,
+        audioUrl: song.audioUrl,
+        artworkUrl: song.artworkUrl
+      })
+    )
+  )
+
+  console.log(`seeded ${songs.length} songs`)
   console.log(`seeded successfully`)
 }
 
