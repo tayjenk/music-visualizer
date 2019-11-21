@@ -42,6 +42,9 @@ class PlayerOne extends React.Component {
     this.start = this.start.bind(this)
     this.visualizer = this.visualizer.bind(this)
   }
+  componentDidMount() {
+    this.props.allSongs()
+  }
 
   playback() {
     return audio.play()
@@ -50,7 +53,8 @@ class PlayerOne extends React.Component {
   start() {
     //creates new Audio constructor returning an HTML audio element to manage and play audio
     //will be using a mix of audioNodes within the audio content
-    audio.src = './songs/TEST.mp3' // the source path
+    const currentSongIdx = Math.floor(Math.random() * this.props.songs.length)
+    audio.src = this.props.songs[currentSongIdx].audioUrl // the source path
     // audio.crossOrigin = 'anonymous'
     //creates a new AudioContext interface within the window
     //allows the execution of audio processing/decoding nodes- needed before doing anything else since it occurs within an audioContext
@@ -121,7 +125,8 @@ class PlayerOne extends React.Component {
 
   drawBar(x1, y1, x2, y2, width, frequency) {
     //creates color based on frequency
-    const lineColor = `rgb(${frequency}, ${frequency}, 205)`
+    const r = frequency + Math.round(Math.random() * 255)
+    const lineColor = `rgb(${r}, ${frequency}, 130)`
     ctx.strokeStyle = lineColor
     ctx.lineWidth = width
     ctx.beginPath()
@@ -134,6 +139,7 @@ class PlayerOne extends React.Component {
   }
 
   render() {
+    console.log(this.props.songs)
     return (
       <div>
         <button type="button" id="play" onClick={this.start}>
